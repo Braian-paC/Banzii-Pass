@@ -5,3 +5,4 @@ git status
 git commit -m "nome da alteração"
 git push origin main
 git checkout -b "new-branch"
+git checkout branch
