@@ -1,29 +1,50 @@
-import random as rd
-# import de bibliotecas
+import kivy
+kivy.require('2.1.0')
 
-# funções
-choice = 0
-def senha_random():
-    random_characters = "0123456789AaBbCcDdEeFfGgHhJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzçÇ]}[{?!#$%&*"
-    caracteres, pass_origin = 0, ""
-    while caracteres <= 5 or caracteres > 20:
-        caracteres = int(input('Quantos caracteres a senha deverá ter? (de 6 a 20)\n'))
-    for c in range(0, caracteres):
-        pass_add = rd.choice(random_characters)
-        pass_origin = pass_add + pass_origin
-    print(f'Senha: "{pass_origin}"')
+import random as rd 
+from kivy.app import App 
+from kivy.uix.label import Label
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+
 def randomizar_senha():
     pass_old = str(input('Digite sua senha atual: '))
     pass_new = ''.join(rd.sample(pass_old, len(pass_old)))
     print(f'Senha randomizada: {pass_new}')
 
-# mecânica do gerador de senhas
-print('-=-'*15, '\nBanzii Pass'), print('-=-'*15)
-while choice != 2 and choice != 1:
-    choice = int(input('O que você deseja?\n1 -> Gerar uma senha totalmente randômica\n2 -> Randomizar uma senha já existente\n'))
-print('-=-'*15)
-if choice == 1:
-    senha_random()
-if choice == 2:
-    randomizar_senha()
-print('-=-'*15)
+class GerPass(GridLayout):
+    def __init__(self, **kwargs):
+        super(GerPass, self).__init__(**kwargs)
+        self.cols = 2
+
+        btn1 = Button(text='Gerar senha aleatória')
+        btn2 = Button(text='Randomizar senha')
+        self.output1 = TextInput(text='SENHA')
+        self.output2 = TextInput(text='SENHA')
+
+        self.add_widget(btn1)
+        self.add_widget(self.output1)
+        self.add_widget(btn2)
+        self.add_widget(self.output2)
+
+        btn1.bind(on_press=self.btn1_click)
+        btn2.bind(on_press=self.btn2_click)
+
+    def btn1_click(self, instance):
+        random_characters = "0123456789AaBbCcDdEeFfGgHhJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzçÇ]}[{?!#$%&*"
+        caracteres, pass_origin = 15, ""
+        for c in range(0, caracteres):
+            pass_add = rd.choice(random_characters)
+            pass_origin = pass_add + pass_origin
+        self.output1.text = pass_origin
+    def btn2_click(self, instance):
+        self.output2.text = "FUNÇÃO EM ANDAMENTO"
+
+class MyApp(App):
+
+    def build(self):
+        return GerPass()
+
+if __name__ == '__main__':
+    MyApp().run()
