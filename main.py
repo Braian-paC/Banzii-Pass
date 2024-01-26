@@ -1,17 +1,12 @@
 import kivy
 kivy.require('2.1.0')
 
-import random as rd 
-from kivy.app import App 
-from kivy.uix.label import Label
+import random as rd
+from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-
-def randomizar_senha():
-    pass_old = str(input('Digite sua senha atual: '))
-    pass_new = ''.join(rd.sample(pass_old, len(pass_old)))
-    print(f'Senha randomizada: {pass_new}')
+from kivy.core.window import Window
 
 class GerPass(GridLayout):
     def __init__(self, **kwargs):
@@ -20,8 +15,8 @@ class GerPass(GridLayout):
 
         btn1 = Button(text='Gerar senha aleatória')
         btn2 = Button(text='Randomizar senha')
-        self.output1 = TextInput(text='SENHA')
-        self.output2 = TextInput(text='SENHA')
+        self.output1 = TextInput(text='CLIQUE NO BOTÃO')
+        self.output2 = TextInput(text='DIGITE SUA SENHA E CLIQUE NO BOTÃO')
 
         self.add_widget(btn1)
         self.add_widget(self.output1)
@@ -39,12 +34,15 @@ class GerPass(GridLayout):
             pass_origin = pass_add + pass_origin
         self.output1.text = pass_origin
     def btn2_click(self, instance):
-        self.output2.text = "FUNÇÃO EM ANDAMENTO"
+        pass_new = ''.join(rd.sample(self.output2.text, len(self.output2.text)))
+        self.output2.text = pass_new
 
-class MyApp(App):
+class Banzii_Pass(App):
 
     def build(self):
+        self.title= 'Banzii Pass'
+        Window.size = (800, 200)
         return GerPass()
 
 if __name__ == '__main__':
-    MyApp().run()
+    Banzii_Pass().run()
